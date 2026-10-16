@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="lilies">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>莫奈阅读器</title>
+<meta name="description" content="莫奈配色的本地小说阅读器，支持 TXT / EPUB，数据全部存在本机">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23f2ede3'/%3E%3Ccircle cx='11' cy='13' r='4.6' fill='%23d7a4a4'/%3E%3Ccircle cx='21' cy='12' r='3.6' fill='%23e8c3bd'/%3E%3Cpath d='M3 21c4-3 7 1 11-1s6-4 10-2 5 2 5 2v10H3z' fill='%237ba3aa'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/themes.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ══════════════════════════ 书  架 ══════════════════════════ -->
+<section id="viewShelf" class="view">
+  <div class="ambient-clip" aria-hidden="true"><div class="ambient"></div></div>
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 40 40" fill="none">
+          <circle cx="14" cy="15" r="5.6" fill="var(--lily)" opacity=".85"/>
+          <circle cx="26" cy="13" r="4.4" fill="var(--lily)" opacity=".55"/>
+          <circle cx="20" cy="21" r="7" fill="var(--water)" opacity=".5"/>
+          <path d="M2 30c5-3.4 8.5 1.2 13-1s7.5-4.6 12-2.4S36 28 38 28v12H2z" fill="var(--water)" opacity=".75"/>
+          <path d="M2 34c6-2 9 2 14 .4s8-3 12-1.4 8 .8 10 .8v8H2z" fill="var(--sage)" opacity=".6"/>
+        </svg>
+      </span>
+      <span class="brand-text">
+        <b>莫奈阅读器</b>
+        <i>Nymphéa Reader · 本地小说阅读</i>
+      </span>
+    </div>
+
+    <div class="topbar-actions">
+      <label class="field-search">
+        <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <circle cx="9" cy="9" r="5.4" stroke="currentColor" stroke-width="1.6"/>
+          <path d="m13.2 13.2 3.4 3.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+        <input id="shelfSearch" type="search" placeholder="搜索书名或作者" autocomplete="off" spellcheck="false">
+      </label>
+      <button id="btnImport" class="btn btn-primary">
+        <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <path d="M10 4v9m0 0 3.4-3.4M10 13 6.6 9.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M4 15.5h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+        导入图书
+      </button>
+      <button id="btnPalette" class="btn-icon" title="切换配色 (C)" aria-label="切换配色">
+        <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <circle cx="10" cy="10" r="6.6" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M10 3.4a6.6 6.6 0 0 0 0 13.2c1.5 0 1.9-1 1.3-1.8-.7-.9-.2-1.9 1-1.9h1.5a2.8 2.8 0 0 0 2.8-2.8C16.6 6 13.6 3.4 10 3.4Z" fill="currentColor" opacity=".22"/>
+          <circle cx="7.6" cy="8" r="1.1" fill="currentColor"/>
+          <circle cx="12.2" cy="7.4" r="1.1" fill="currentColor"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <main class="shelf">
+    <div id="bookGrid" class="grid"></div>
+    <div id="shelfEmpty" class="empty" hidden>
+      <div class="empty-art" aria-hidden="true">
+        <svg viewBox="0 0 220 150" fill="none">
+          <ellipse cx="110" cy="112" rx="96" ry="26" fill="var(--water)" opacity=".18"/>
+          <ellipse cx="110" cy="120" rx="70" ry="16" fill="var(--sage)" opacity=".22"/>
+          <rect x="66" y="42" width="88" height="62" rx="7" fill="var(--surface)" stroke="var(--line)" stroke-width="1.6"/>
+          <path d="M110 42v62" stroke="var(--line)" stroke-width="1.6"/>
+          <path d="M74 54h28M74 64h24M74 74h26M118 54h28M118 64h22" stroke="var(--ink-4)" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="52" cy="34" r="7" fill="var(--lily)" opacity=".55"/>
+          <circle cx="168" cy="28" r="5" fill="var(--gold)" opacity=".5"/>
+          <circle cx="182" cy="52" r="4" fill="var(--lavender)" opacity=".45"/>
+        </svg>
+      </div>
+      <h2>书架还是空的</h2>
+      <p>把小说 <b>.txt</b> 或 <b>.epub</b> 文件直接拖到这里，或者点下面的按钮。<br>中文编码会自动识别，GBK 的老书也能正常打开。</p>
+      <button id="btnImport2" class="btn btn-primary btn-lg">选择文件导入</button>
+      <p class="hint">书籍只保存在你自己的电脑里，不会上传到任何地方。</p>
+    </div>
+  </main>
+</section>
+
+<!-- ══════════════════════════ 阅读器 ══════════════════════════ -->
+<section id="viewReader" class="view reader" hidden>
+  <header id="readerBar" class="reader-bar">
+    <button id="btnBack" class="btn-icon" title="回到书架 (Esc)" aria-label="回到书架">
+      <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+        <path d="M11.6 5.4 6.8 10l4.8 4.6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M6.8 10H16" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    <div class="reader-title">
+      <b id="rdBook">书名</b>
+      <i id="rdChapter">第 1 章</i>
+    </div>
+
+    <div class="reader-tools">
+      <button id="btnToc" class="btn btn-ghost" title="目录 (T)">目录</button>
+      <button id="btnFind" class="btn btn-ghost" title="全书搜索 (F)">搜索</button>
+      <button id="btnAa" class="btn btn-ghost" title="阅读设置 (S)">Aa</button>
+      <button id="btnPalette2" class="btn-icon" title="切换配色 (C)" aria-label="切换配色">
+        <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <circle cx="10" cy="10" r="6.6" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M10 3.4a6.6 6.6 0 0 0 0 13.2c1.5 0 1.9-1 1.3-1.8-.7-.9-.2-1.9 1-1.9h1.5a2.8 2.8 0 0 0 2.8-2.8C16.6 6 13.6 3.4 10 3.4Z" fill="currentColor" opacity=".22"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <div id="readingArea" class="reading-area">
+    <article id="readerContent" class="reader-content"></article>
+    <div id="chapterEnd" class="chapter-end" hidden>
+      <span>本章完</span>
+      <button id="btnNextAtEnd" class="btn btn-ghost">下一章 →</button>
+    </div>
+  </div>
+
+  <footer class="reader-foot">
+    <div class="progress-track"><div id="rdProgress" class="progress-fill"></div></div>
+    <div class="reader-status">
+      <button id="btnPrev" class="btn-mini">← 上一章</button>
+      <span id="rdStatus">第 1 / 1 章</span>
+      <button id="btnNext" class="btn-mini">下一章 →</button>
+    </div>
+  </footer>
+</section>
+
+<!-- ══════════════════════════ 抽屉 ══════════════════════════ -->
+<aside id="drawerToc" class="drawer drawer-left" hidden aria-label="目录">
+  <div class="drawer-head">
+    <h3>目录</h3>
+    <span id="tocCount" class="muted"></span>
+    <button class="btn-icon drawer-close" data-close="drawerToc" aria-label="关闭">✕</button>
+  </div>
+  <div id="tocList" class="toc-list"></div>
+</aside>
+
+<aside id="drawerSettings" class="drawer drawer-right" hidden aria-label="阅读设置">
+  <div class="drawer-head">
+    <h3>阅读设置</h3>
+    <button class="btn-icon drawer-close" data-close="drawerSettings" aria-label="关闭">✕</button>
+  </div>
+
+  <div class="drawer-body">
+    <div class="setting">
+      <label>配色</label>
+      <div class="swatches" id="set-theme">
+        <button class="swatch" data-theme="lilies" title="睡莲"><span style="background:linear-gradient(150deg,#f3e6df,#9dbec1 55%,#d7a4a4)"></span>睡莲</button>
+        <button class="swatch" data-theme="mist"   title="晨雾"><span style="background:linear-gradient(150deg,#eef4f5,#a8c0cc 60%,#8aa9b8)"></span>晨雾</button>
+        <button class="swatch" data-theme="hay"    title="干草堆"><span style="background:linear-gradient(150deg,#fbf0d8,#d9ab5e 60%,#b07f47)"></span>干草堆</button>
+        <button class="swatch" data-theme="night"  title="夜桥"><span style="background:linear-gradient(150deg,#2d3c43,#7ba7b1 60%,#1a2429)"></span>夜桥</button>
+      </div>
+    </div>
+
+    <div class="setting">
+      <label>字体</label>
+      <select id="set-font">
+        <option value="serif">宋体（默认 · 纸质书感）</option>
+        <option value="kai">楷体</option>
+        <option value="hei">微软雅黑</option>
+        <option value="deng">等线（现代）</option>
+        <option value="fangsong">仿宋</option>
+      </select>
+    </div>
+
+    <div class="setting">
+      <label>字号 <b id="val-size">19</b> px</label>
+      <input type="range" id="set-size" min="14" max="32" step="1" value="19">
+    </div>
+
+    <div class="setting">
+      <label>行距 <b id="val-lh">1.9</b></label>
+      <input type="range" id="set-lh" min="1.4" max="2.6" step="0.05" value="1.9">
+    </div>
+
+    <div class="setting">
+      <label>页面宽度 <b id="val-width">760</b> px</label>
+      <input type="range" id="set-width" min="560" max="1100" step="20" value="760">
+    </div>
+
+    <div class="setting">
+      <label>字间距 <b id="val-ls">0.02</b> em</label>
+      <input type="range" id="set-ls" min="0" max="0.12" step="0.01" value="0.02">
+    </div>
+
+    <div class="setting setting-row">
+      <label for="set-indent">段首缩进两格</label>
+      <input type="checkbox" id="set-indent" class="switch" checked>
+    </div>
+
+    <div class="setting setting-row">
+      <label for="set-flip">左右键翻页（关闭则调章节）</label>
+      <input type="checkbox" id="set-flip" class="switch" checked>
+    </div>
+
+    <div class="setting setting-row">
+      <label for="set-immersive">沉浸模式（滚动时隐藏工具栏）</label>
+      <input type="checkbox" id="set-immersive" class="switch" checked>
+    </div>
+
+    <div class="setting">
+      <button id="btnReset" class="btn btn-ghost btn-block">恢复默认设置</button>
+    </div>
+  </div>
+</aside>
+
+<!-- 全书搜索 -->
+<div id="findPanel" class="find-panel" hidden>
+  <div class="find-box">
+    <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+      <circle cx="9" cy="9" r="5.4" stroke="currentColor" stroke-width="1.6"/>
+      <path d="m13.2 13.2 3.4 3.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+    </svg>
+    <input id="findInput" type="text" placeholder="在本书里搜索…" autocomplete="off" spellcheck="false">
+    <button class="btn-icon drawer-close" data-close="findPanel" aria-label="关闭">✕</button>
+  </div>
+  <div id="findResults" class="find-results"></div>
+</div>
+
+<!-- 书籍信息弹窗 -->
+<div id="modal" class="modal" hidden>
+  <div class="modal-card" role="dialog" aria-modal="true">
+    <h3>书籍信息</h3>
+    <label class="field">
+      <span>书名</span>
+      <input id="mdTitle" type="text" maxlength="80">
+    </label>
+    <label class="field">
+      <span>作者</span>
+      <input id="mdAuthor" type="text" maxlength="40" placeholder="（未填写）">
+    </label>
+    <div class="modal-actions">
+      <button id="mdDelete" class="btn btn-danger-ghost">从书架移除</button>
+      <span class="grow"></span>
+      <button class="btn btn-ghost" data-close="modal">取消</button>
+      <button id="mdSave" class="btn btn-primary">保存</button>
+    </div>
+  </div>
+</div>
+
+<div id="scrim" class="scrim" hidden></div>
+<div id="toasts" class="toasts"></div>
+
+<input id="filePicker" type="file" accept=".txt,.epub,.text,text/plain" multiple hidden>
+
+<script src="js/storage.js"></script>
+<script src="js/parser.js"></script>
+<script src="js/covers.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

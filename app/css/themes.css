@@ -1,0 +1,154 @@
+/* ==========================================================================
+   莫奈配色 · Monet Palettes
+   四套主题，颜色都取自莫奈的画：
+     睡莲 (lilies)   —— 吉维尼池塘的晨光，奶油纸 + 池水青 + 睡莲粉
+     晨雾 (mist)     —— 《鲁昂大教堂》系列的冷灰蓝
+     干草堆 (hay)    —— 《干草堆》系列的暖麦金
+     夜桥 (night)    —— 《日本桥》的夜色，深靛蓝 + 月色
+   想换配色，只要改这里的色值即可，全站生效。
+   ========================================================================== */
+
+:root,
+[data-theme="lilies"] {
+  color-scheme: light;
+
+  --canvas:        #eae3d5;   /* 书架底色：旧画布 */
+  --surface:       #faf8f2;   /* 卡片、面板 */
+  --surface-2:     #f3efe6;   /* 次级面板、悬停 */
+  --surface-3:     #e9e3d6;
+
+  --ink:           #38423f;   /* 正文墨色：池水深处的绿灰 */
+  --ink-2:         #5d6b66;
+  --ink-3:         #8e9a95;
+  --ink-4:         #aab3ae;
+
+  --line:          #ddd6c7;
+  --line-soft:     #e7e1d4;
+
+  --accent:        #5d8890;   /* 池水青 */
+  --accent-2:      #7ba3aa;
+  --accent-soft:   #dde9e8;
+  --accent-ink:    #f7fbfa;
+
+  --lily:          #d7a4a4;   /* 睡莲粉 */
+  --water:         #8fb3b6;
+  --sage:          #9aae9c;
+  --gold:          #d6af75;
+  --lavender:      #a79cc0;
+
+  --read-bg:       #faf7f0;   /* 阅读区：暖纸 */
+  --read-ink:      #333a39;
+  --read-quote:    #6a7773;
+
+  --shadow-sm: 0 1px 2px rgba(72,80,74,.05);
+  --shadow:    0 2px 6px rgba(72,80,74,.06), 0 10px 28px rgba(72,80,74,.07);
+  --shadow-lg: 0 8px 20px rgba(60,70,66,.10), 0 24px 60px rgba(60,70,66,.12);
+}
+
+[data-theme="mist"] {
+  color-scheme: light;
+
+  --canvas:        #e6ebed;
+  --surface:       #f7fafa;
+  --surface-2:     #eef3f4;
+  --surface-3:     #e2e9eb;
+
+  --ink:           #33403f;
+  --ink-2:         #566666;
+  --ink-3:         #859596;
+  --ink-4:         #a3b0b1;
+
+  --line:          #d3dee0;
+  --line-soft:     #e0e8ea;
+
+  --accent:        #5f8497;
+  --accent-2:      #7ca0b1;
+  --accent-soft:   #dbe7ec;
+  --accent-ink:    #f8fcfd;
+
+  --lily:          #cfa8b0;
+  --water:         #8aa9b8;
+  --sage:          #9bb0ae;
+  --gold:          #cdb489;
+  --lavender:      #a3a3c4;
+
+  --read-bg:       #f6f9f9;
+  --read-ink:      #303b3c;
+  --read-quote:    #647478;
+
+  --shadow-sm: 0 1px 2px rgba(70,86,90,.05);
+  --shadow:    0 2px 6px rgba(70,86,90,.06), 0 10px 28px rgba(70,86,90,.08);
+  --shadow-lg: 0 8px 20px rgba(60,76,80,.10), 0 24px 60px rgba(60,76,80,.13);
+}
+
+[data-theme="hay"] {
+  color-scheme: light;
+
+  --canvas:        #efe4d1;
+  --surface:       #fbf6ea;
+  --surface-2:     #f5ecdb;
+  --surface-3:     #ebdfc9;
+
+  --ink:           #4a3d2e;
+  --ink-2:         #6d5c47;
+  --ink-3:         #9c8a72;
+  --ink-4:         #b6a68e;
+
+  --line:          #e0d3ba;
+  --line-soft:     #eae0cb;
+
+  --accent:        #a87a3c;
+  --accent-2:      #c09257;
+  --accent-soft:   #f0e2c9;
+  --accent-ink:    #fffaf1;
+
+  --lily:          #cf9f8e;
+  --water:         #9fb0a4;
+  --sage:          #a3ac8c;
+  --gold:          #d9ab5e;
+  --lavender:      #b0a0a8;
+
+  --read-bg:       #fbf4e4;
+  --read-ink:      #40372a;
+  --read-quote:    #7a6a51;
+
+  --shadow-sm: 0 1px 2px rgba(96,78,52,.06);
+  --shadow:    0 2px 6px rgba(96,78,52,.07), 0 10px 28px rgba(96,78,52,.09);
+  --shadow-lg: 0 8px 20px rgba(90,72,48,.11), 0 24px 60px rgba(90,72,48,.15);
+}
+
+[data-theme="night"] {
+  color-scheme: dark;
+
+  --canvas:        #182125;
+  --surface:       #212b30;
+  --surface-2:     #273338;
+  --surface-3:     #2e3b41;
+
+  --ink:           #c3cdc9;
+  --ink-2:         #98a5a0;
+  --ink-3:         #6f7d79;
+  --ink-4:         #5a6764;
+
+  --line:          #313e44;
+  --line-soft:     #29353a;
+
+  --accent:        #7ba7b1;
+  --accent-2:      #93bcc5;
+  --accent-soft:   #26363c;
+  --accent-ink:    #14201f;
+
+  --lily:          #b2858c;
+  --water:         #6d97a3;
+  --sage:          #7d9482;
+  --gold:          #c0a06a;
+  --lavender:      #8f88ad;
+
+  --read-bg:       #1e282c;
+  --read-ink:      #bfc9c5;
+  --read-quote:    #8b9793;
+
+  --shadow-sm: 0 1px 2px rgba(0,0,0,.20);
+  --shadow:    0 2px 6px rgba(0,0,0,.25), 0 10px 28px rgba(0,0,0,.28);
+  --shadow-lg: 0 8px 20px rgba(0,0,0,.35), 0 24px 60px rgba(0,0,0,.45);
+}
